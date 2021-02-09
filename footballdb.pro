@@ -16,7 +16,8 @@ club(marseille).
 
 clubcountry(barcelona, spain).
 clubcountry(real, spain).
-clubcountry(bayern, spain).
+clubcountry(atletico, spain).
+clubcountry(bayern, germany).
 clubcountry(borussia, germany).
 clubcountry(leipzig, germany).
 clubcountry(mancity, england).
@@ -49,7 +50,7 @@ playerclub(griezman, barcelona).
 playerclub(ramos, real).
 playerclub(benzema, real).
 playerclub(suarez, atletico).
-playerclub(oblak, suarez).
+playerclub(oblak, atletico).
 playerclub(lewandowski, bayern).
 playerclub(muller, bayern).
 playerclub(haaland, borussia).
@@ -120,10 +121,16 @@ playercountry(mbappe, france).
 playercountry(benyeder, spain).
 playercountry(vea, usa).
 
+playercoach(X,Y):-playerclub(X,Z),clubcoach(Z,Y).
+
 teammates(X,Y):-playerclub(X,Z),playerclub(Y,Z),not(X=Y).
 nationalteammates(X,Y):-playercountry(X,Z),playercountry(Y,Z),not(X=Y).
-playercoach(X,Y):-playerclub(X,Z),clubcoach(Z,Y),not(X=Y).
+
 sameleagueclubs(X,Y):-clubcountry(X,Z),clubcountry(Y,Z),not(X=Y).
-nativeplayer(X,Y):-playercountry(X,Y),playerclub(X,Z),clubcountry(Z,Y),not(X=Y).
+sameleagueplayers(X,Y):-playerclub(X,Z),playerclub(Y,T),clubcountry(Z,S),clubcountry(T,S),not(X=Y).
+
+nativeplayer(X):-playercountry(X,Y),playerclub(X,Z),clubcountry(Z,Y).
+nativeplayer(X,Y):-playercountry(X,Y),playerclub(X,Z),clubcountry(Z,Y).
+
 sameposition(X,Y):-playerposition(X,Z),playerposition(Y,Z),not(X=Y).
 sameclubsameposition(X,Y):-teammates(X,Y),sameposition(X,Y),not(X=Y).
